@@ -14,18 +14,18 @@
     <header>
       <nav class="navbar navbar-expand-lg navbar-light bg-dark">
         <div class="container">
-          <%= link_to root_path, class: "navbar-brand" do %>
+          <%= link_to root_path, class: "navbar-brand text-light" do %>
             ノミタビ
           <% end %>
           <ul class= "navbar-nav ml-auto">
             <% if user_signed_in? %>
-              <p>
+              <p class= "text-light my-auto">
                 ようこそ、
-                <%= current_user.family_name %>
+                <%= current_user.nickname %>
                 さん！
               </p>
               <li class= "nav-item pl-3">
-                <%= link_to users_my_page_path, class: 'nav-link text-dark' do %>
+                <%= link_to user_path(current_user.id), class: 'nav-link text-dark' do %>
                   <button type= "button" class= "btn btn-light">マイページ</button>
                 <% end %>
               </li>
