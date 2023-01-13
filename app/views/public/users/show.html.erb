@@ -29,13 +29,14 @@
     </div>
   </div>
 
-  <div class= "row">
-    <% if @user == current_user %>
+  <% if @user == current_user and @user.email != 'guest@example.com' %>
+    <div class= "row">
       <div class= "col">
         <%= link_to edit_user_path(current_user.id), class: "btn btn-outline-secondary" do %>
           プロフィール編集
         <% end %>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
+
 </div>
