@@ -1,2 +1,19 @@
-<h1>Public::Posts#index</h1>
-<p>Find me in app/views/public/posts/index.html.erb</p>
+<div class= "container">
+  <div class= "row py-5">
+    <div class= "offset-1 col">
+      <h4>投稿一覧</h4>
+    </div>
+  </div>
+
+  <% @posts.each do |post| %>
+    <div class= "row">
+      <div class= "col">
+        <%= image_tag post.get_shop_image(200,200) %>
+        <p>店舗名：<%= post.shop_name %></p>
+        <p>店舗紹介：<%= post.introduction %></p>
+        <p>店舗住所：<%= post.shop_address %></p>
+        <p>店舗ホームページURL：<%= post.shop_url %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
