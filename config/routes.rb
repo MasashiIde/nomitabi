@@ -19,20 +19,21 @@ Rails.application.routes.draw do
   end
 
   scope module: :public do
-    get 'users/my_page' => 'users#show'
-    get 'users/information/edit' => 'users#edit'
-    patch 'users/information' => 'users#update'
     get 'users/unsubscribe'
     patch 'users/withdraw'
     resources :posts do
       resources :post_comments, only: [:create, :destroy]
       resource :favorites, only: [:create, :destroy]
     end
-    resources :users, except: [:new, :create, :index, :show, :edit, :update, :destroy] do
+    resources :users, except: [:new, :create, :index, :destroy] do
       resources :relationships, only: [:create, :destroy]
       get 'followings' => 'relationships#followings', as: 'followings'
       get 'followers' => 'relationships#followers', as: 'followers'
     end
+  end
+
+  devise_scope :user do
+    post 'users/guest_sign_in', to: 'users/sessions#guest_sign_in'
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

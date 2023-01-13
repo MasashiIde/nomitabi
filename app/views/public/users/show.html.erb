@@ -1,0 +1,42 @@
+<div class= "container">
+  <div class= "row py-5">
+    <div class= "offset-1 col">
+      <% if @user == current_user %>
+        <h4>マイページ</h4>
+      <% else %>
+        <h4>ユーザープロフィール</h4>
+      <% end %>
+    </div>
+  </div>
+
+  <div class= "row">
+    <div class= "offset-2 col-md-3">
+      <%= image_tag @user.get_profile_image(200,200) %>
+    </div>
+
+    <div>
+      <table>
+        <tbody>
+          <tr>
+            <th>ニックネーム</th>
+            <td><%= @user.nickname %></td>
+          </tr>
+          <tr>
+            <td><%= @user.introduction %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <% if @user == current_user and @user.email != 'guest@example.com' %>
+    <div class= "row">
+      <div class= "col">
+        <%= link_to edit_user_path(current_user.id), class: "btn btn-outline-secondary" do %>
+          プロフィール編集
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+</div>
