@@ -28,18 +28,29 @@
             <th>店舗ホームページ</th>
             <td><%= @post.shop_url %></td>
           </tr>
+          <tr>
+            <th>投稿者</th>
+            <td><%= @post.user.nickname %></td>
+          </tr>
           <% if @post.user == current_user %>
             <tr>
               <td align="right">
                 <%= link_to "編集する", edit_post_path(@post), class: "btn btn-success" %>
               </td>
               <td align="center">
-                <%= link_to "削除する", post_path(@post), method: :delete, class: "btn btn-danger" %>
+                <%= link_to "削除する", post_path(@post), method: :delete, class: "btn btn-danger", data: {confirm: "本当に削除しますか？"} %>
               </td>
             </tr>
           <% end %>
         </tbody>
       </table>
+    </div>
+  </div>
+  <div class= "row py-4">
+    <div class= "offset-10 col-md-2">
+      <%= link_to posts_path do %>
+        店舗一覧に戻る
+      <% end %>
     </div>
   </div>
 </div>

@@ -1,21 +1,20 @@
 <div class= "container">
-  <div class= "row py-5">
-    <div class= "offset-1 col">
+
+  <%= form_with url: search_path, method: :get, local: true do |f| %>
+    <div class= "row form-group py-5">
+      <div class= "offset-1 col-md-2">
       <h4>投稿一覧</h4>
+      </div>
+      <%= f.text_field :keyword, value: @keyword, class: "form-control offset-4 col-md-3", placeholder: "キーワードで検索" %>
+      <%= button_tag(type: "submit", class: "btn btn-primary mr-2") do %>
+        <i class="fas fa-search"></i>
+      <% end %>
+      <%= link_to "検索クリア", posts_path %>
     </div>
-  </div>
+  <% end %>
 
   <div class= "row">
-    <div class="search-form pb-4 ml-auto ">
-      <%= form_with url: search_path, method: :get, local: true do |f| %>
-        <%= f.text_field :keyword, value: @keyword %>
-        <%= f.submit "検索", class: "btn btn-primary" %>
-      <% end %>
-    </div>
-  </div>
-
-  <% @posts.each do |post| %>
-    <div class= "row">
+    <% @posts.each do |post| %>
       <div class= "col-md-3">
         <%= link_to post_path(post) do %>
           <%= image_tag post.get_shop_image(250,300) %>
@@ -33,6 +32,6 @@
         <h5>店舗住所</h5>
         <p><%= post.shop_address %></p>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
