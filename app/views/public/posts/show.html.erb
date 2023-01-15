@@ -1,2 +1,45 @@
-<h1>Public::Posts#show</h1>
-<p>Find me in app/views/public/posts/show.html.erb</p>
+<div class= "container">
+  <div class= "row py-5">
+    <div class= "offset-1 col">
+      <h4>店舗詳細</h4>
+    </div>
+  </div>
+
+  <div class= "row">
+    <div class= "offset-1 col-md-6">
+      <%= image_tag @post.get_shop_image(500,500) %>
+    </div>
+    <div class= "col-md-5">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th width= "170">店舗名</th>
+            <td><%= @post.shop_name %></td>
+          </tr>
+          <tr>
+            <th>店舗紹介文</th>
+            <td align="justify"><%= @post.introduction %></td>
+          </tr>
+          <tr>
+            <th>店舗住所</th>
+            <td align="justify"><%= @post.shop_address %></td>
+          </tr>
+          <tr>
+            <th>店舗ホームページ</th>
+            <td><%= @post.shop_url %></td>
+          </tr>
+          <% if @post.user == current_user %>
+            <tr>
+              <td align="right">
+                <%= link_to "編集する", edit_post_path(@post), class: "btn btn-success" %>
+              </td>
+              <td align="center">
+                <%= link_to "削除する", post_path(@post), method: :delete, class: "btn btn-danger" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

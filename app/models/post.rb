@@ -18,4 +18,8 @@ class Post < ApplicationRecord
     shop_image.variant(resize_to_limit: [width, height]).processed
   end
 
+  def self.search(keyword)
+    where(["shop_name like? OR introduction like? OR shop_address like?", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%"])
+  end
+
 end

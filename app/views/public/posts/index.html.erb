@@ -5,14 +5,33 @@
     </div>
   </div>
 
+  <div class= "row">
+    <div class="search-form pb-4 ml-auto ">
+      <%= form_with url: search_path, method: :get, local: true do |f| %>
+        <%= f.text_field :keyword, value: @keyword %>
+        <%= f.submit "検索", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+
   <% @posts.each do |post| %>
     <div class= "row">
-      <div class= "col">
-        <%= image_tag post.get_shop_image(200,200) %>
-        <p>店舗名：<%= post.shop_name %></p>
-        <p>店舗紹介：<%= post.introduction %></p>
-        <p>店舗住所：<%= post.shop_address %></p>
-        <p>店舗ホームページURL：<%= post.shop_url %></p>
+      <div class= "col-md-3">
+        <%= link_to post_path(post) do %>
+          <%= image_tag post.get_shop_image(250,300) %>
+        <% end %>
+        <h5>店舗名</h5>
+        <p>
+          <%= link_to post_path(post) do %>
+            <%= post.shop_name %>
+          <% end %>
+        </p>
+
+        <h5>店舗紹介文</h5>
+        <p><%= post.introduction %></p>
+
+        <h5>店舗住所</h5>
+        <p><%= post.shop_address %></p>
       </div>
     </div>
   <% end %>

@@ -15,7 +15,7 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-dark">
         <div class="container">
           <%= link_to root_path, class: "navbar-brand text-light" do %>
-            ノミタビ
+            <%= image_tag 'nomitabi.jpg', :size => '70x70' %>
           <% end %>
           <ul class= "navbar-nav ml-auto">
             <% if user_signed_in? %>
