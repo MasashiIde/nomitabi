@@ -26,7 +26,13 @@
           </tr>
           <tr>
             <th>店舗ホームページ</th>
-            <td><%= @post.shop_url %></td>
+            <td>
+              <% if @post.shop_url.nil? %>
+                <%= @post.shop_url %>
+              <% else %>
+                <%= Rinku.auto_link(@post.shop_url, :all, 'target="_blank"').html_safe %>
+              <% end %>
+            </td>
           </tr>
           <tr>
             <th>投稿者</th>
