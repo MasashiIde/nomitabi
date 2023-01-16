@@ -36,7 +36,11 @@
           </tr>
           <tr>
             <th>投稿者</th>
-            <td><%= @post.user.nickname %></td>
+            <td>
+              <%= link_to user_path(@post.user) do %>
+                <%= @post.user.nickname %>
+              <% end %>
+            </td>
           </tr>
           <% if @post.user == current_user %>
             <tr>
