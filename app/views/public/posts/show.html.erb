@@ -7,9 +7,13 @@
 
   <div class= "row">
     <div class= "offset-1 col-md-6">
-      <%= image_tag @post.get_shop_image(500,500), class: "pb-3" %><br>
-      <div id= "favorite_buttons_<%= @post.id %>">
-        <%= render partial: "public/favorites/favorite", locals: { post: @post } %>
+      <%= image_tag @posts.get_shop_image(500,500), class: "pb-3" %><br>
+      <div id= "favorite_buttons_<%= @posts.id %>">
+        <%= render partial: "public/favorites/favorite", locals: { post: @posts } %>
+      </div>
+      <div>
+        コメント数：
+        <%= @posts.post_comments.count %>
       </div>
     </div>
     <div class= "col-md-5">
@@ -17,53 +21,79 @@
         <tbody>
           <tr>
             <th width= "170">店舗名</th>
-            <td><%= @post.shop_name %></td>
+            <td><%= @posts.shop_name %></td>
           </tr>
           <tr>
             <th>店舗紹介文</th>
-            <td align="justify"><%= @post.introduction %></td>
+            <td align="justify"><%= @posts.introduction %></td>
           </tr>
           <tr>
             <th>店舗住所</th>
-            <td align="justify"><%= @post.shop_address %></td>
+            <td align= "justify"><%= @posts.shop_address %></td>
           </tr>
           <tr>
             <th>店舗ホームページ</th>
             <td>
-              <% if @post.shop_url.nil? %>
-                <%= @post.shop_url %>
+              <% if @posts.shop_url.nil? %>
+                <%= @posts.shop_url %>
               <% else %>
-                <%= Rinku.auto_link(@post.shop_url, :all, 'target="_blank"').html_safe %>
+                <%= Rinku.auto_link(@posts.shop_url, :all, 'target="_blank"').html_safe %>
               <% end %>
             </td>
           </tr>
           <tr>
             <th>投稿者</th>
             <td>
-              <%= link_to user_path(@post.user) do %>
-                <%= @post.user.nickname %>
+              <%= link_to user_path(@posts.user) do %>
+                <%= @posts.user.nickname %>
               <% end %>
             </td>
           </tr>
-          <% if @post.user == current_user %>
+          <% if @posts.user == current_user %>
             <tr>
-              <td align="right">
-                <%= link_to "編集する", edit_post_path(@post), class: "btn btn-success" %>
+              <td align= "right">
+                <%= link_to "編集する", edit_post_path(@posts), class: "btn btn-success" %>
               </td>
-              <td align="center">
-                <%= link_to "削除する", post_path(@post), method: :delete, class: "btn btn-danger", data: {confirm: "本当に削除しますか？"} %>
+              <td align= "center">
+                <%= link_to "削除する", post_path(@posts), method: :delete, class: "btn btn-danger", data: {confirm: "本当に削除しますか？"} %>
               </td>
             </tr>
           <% end %>
+            <tr align= "right">
+              <td colspan="2">
+                <%= link_to posts_path do %>
+                  投稿一覧に戻る
+                <% end %>
+              </td>
+            </tr>
         </tbody>
       </table>
     </div>
   </div>
-  <div class= "row py-4">
-    <div class= "offset-7 col-md-2">
-      <%= link_to posts_path do %>
-        投稿一覧に戻る
-      <% end %>
+
+  <%= form_with model:[@posts, @post_comment], local: true do |f| %>
+    <div class= "row form-group">
+      <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに", class: "offset-1 col-md-5 form-control" %>
+      <%= f.submit "コメント送信", class: "offset-5 btn btn-primary" %>
     </div>
-  </div>
+  <% end %>
+
+  <table>
+    <% @posts.post_comments.each do |post_comment| %>
+      <tr>
+        <td>
+          <%= image_tag post_comment.user.get_profile_image(50,50) %>
+          <%= link_to user_path(@posts.user.id) do %>
+            <%= post_comment.user.nickname %>
+          <% end %>
+        </td>
+        <td><%= post_comment.comment %></td>
+        <% if post_comment.user == current_user %>
+          <td>
+            <%= link_to "コメント削除", post_post_comment_path(post_comment.post, post_comment), method: :delete, class: "btn btn-danger" %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
 </div>
