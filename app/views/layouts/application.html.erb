@@ -24,23 +24,42 @@
                 <%= current_user.nickname %>
                 さん！
               </p>
-              <li class= "nav-item pl-3">
-                <%= link_to new_post_path, class: 'nav-link text-dark' do %>
-                  <button type= "button" class= "btn btn-light">新規投稿</button>
-                <% end %>
-              </li>
+              <% if current_user.email != 'guest@example.com' %>
+                <li class= "nav-item pl-3">
+                  <%= link_to new_post_path, class: 'nav-link text-dark' do %>
+                    <button type= "button" class= "btn btn-light">新規投稿</button>
+                  <% end %>
+                </li>
+              <% end %>
               <li class= "nav-item pl-3">
                 <%= link_to posts_path, class: 'nav-link text-dark' do %>
                   <button type= "button" class= "btn btn-light">投稿一覧</button>
                 <% end %>
               </li>
+              <% if current_user.email != 'guest@example.com' %>
+                <li class= "nav-item pl-3">
+                  <%= link_to user_path(current_user.id), class: 'nav-link text-dark' do %>
+                    <button type= "button" class= "btn btn-light">マイページ</button>
+                  <% end %>
+                </li>
+              <% end %>
               <li class= "nav-item pl-3">
-                <%= link_to user_path(current_user.id), class: 'nav-link text-dark' do %>
-                  <button type= "button" class= "btn btn-light">マイページ</button>
+                <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-dark' do %>
+                  <button type= "button" class= "btn btn-light">ログアウト</button>
+                <% end %>
+              </li>
+
+            <% elsif admin_signed_in? %>
+              <p class= "text-light my-auto">
+                管理者ログイン中
+              </p>
+              <li class= "nav-item pl-3">
+                <%= link_to admin_users_path, class: 'nav-link text-dark' do %>
+                  <button type= "button" class= "btn btn-light">ユーザー一覧</button>
                 <% end %>
               </li>
               <li class= "nav-item pl-3">
-                <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-dark' do %>
+                <%= link_to destroy_admin_session_path, method: :delete, class: 'nav-link text-dark' do %>
                   <button type= "button" class= "btn btn-light">ログアウト</button>
                 <% end %>
               </li>
@@ -73,6 +92,7 @@
       </nav>
     </header>
 
+    <%= render 'public/shared/flash_message' %>
     <%= yield %>
   </body>
 </html>

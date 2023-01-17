@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get '/about' => 'public/homes#about', as: 'about'
 
   namespace :admin do
-    resources :users, only: [:index, :show, :edit, :update]
+    resources :users, only: [:index, :show, :destroy]
     resources :posts, except: [:new, :create]
   end
 

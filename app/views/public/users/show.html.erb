@@ -14,14 +14,15 @@
       <%= image_tag @user.get_profile_image(200,200) %>
     </div>
 
-    <div>
-      <table>
-        <tbody>
+    <div class= "col-md-7">
+      <table class="table">
+        <tbody height= "100">
           <tr>
-            <th>ニックネーム</th>
+            <th width= "200">ニックネーム</th>
             <td><%= @user.nickname %></td>
           </tr>
           <tr>
+            <th>自己紹介文</th>
             <td><%= @user.introduction %></td>
           </tr>
         </tbody>
