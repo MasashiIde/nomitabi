@@ -1,0 +1,36 @@
+<div class= "container">
+  <div class= "row py-5">
+    <div class= "offset-1 col">
+      <h4>
+        <%= @user.nickname %>
+        のいいね一覧
+      </h4>
+    </div>
+  </div>
+
+  <div class= "row">
+    <% @favorite_posts.each do |favorite_post| %>
+    <div class= "col-md-4 py-3">
+      <table class= "table">
+        <%= link_to post_path(favorite_post) do %>
+          <%= image_tag favorite_post.get_shop_image(350,300) %>
+        <% end %>
+        <tr>
+          <th width= "110">店舗名</th>
+          <td><%= link_to post_path(favorite_post) do %>
+            <%= favorite_post.shop_name %>
+          <% end %></td>
+        </tr>
+        <tr>
+          <th>店舗紹介文</th>
+          <td><%= favorite_post.introduction %></td>
+        </tr>
+        <tr>
+          <th>店舗住所</th>
+          <td><%= favorite_post.shop_address %></td>
+        </tr>
+      </table>
+    </div>
+    <% end %>
+  </div>
+</div>

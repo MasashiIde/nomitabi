@@ -1,6 +1,6 @@
 <div class= "container">
   <div class= "row py-5">
-    <div class= "offset-1 col">
+    <div class= "offset-1 col-md-3">
       <% if @user == current_user %>
         <h4>マイページ</h4>
       <% else %>
@@ -14,9 +14,18 @@
       <%= image_tag @user.get_profile_image(200,200) %>
     </div>
 
-    <div class= "col-md-7">
+    <div class= "col-md-6">
       <table class="table">
         <tbody height= "100">
+          <% if @user == current_user %>
+            <tr>
+              <th>氏名</th>
+              <td>
+                <%= @user.family_name %>
+                <%= @user.first_name %>
+              </td>
+            </tr>
+          <% end %>
           <tr>
             <th width= "200">ニックネーム</th>
             <td><%= @user.nickname %></td>
@@ -30,14 +39,15 @@
     </div>
   </div>
 
-  <% if @user == current_user and @user.email != 'guest@example.com' %>
-    <div class= "row">
-      <div class= "col">
-        <%= link_to edit_user_path(current_user.id), class: "btn btn-outline-secondary" do %>
-          プロフィール編集
-        <% end %>
-      </div>
+  <div class= "row">
+    <div class= "offset-6 col-md-2">
+      <%= link_to "いいねした投稿", favorites_user_path(@user) %>
     </div>
-  <% end %>
+    <% if @user == current_user and @user.email != 'guest@example.com' %>
+      <div class= "col-md-2">
+        <%= link_to "プロフィール編集", edit_user_path(current_user.id), class: "btn btn-outline-secondary" %>
+      </div>
+    <% end %>
+  </div>
 
 </div>

@@ -15,23 +15,27 @@
 
   <div class= "row">
     <% @posts.each do |post| %>
-      <div class= "col-md-3">
+    <div class= "col-md-4 py-3">
+      <table class= "table">
         <%= link_to post_path(post) do %>
-          <%= image_tag post.get_shop_image(250,300) %>
+          <%= image_tag post.get_shop_image(350,300) %>
         <% end %>
-        <h5>店舗名</h5>
-        <p>
-          <%= link_to post_path(post) do %>
+        <tr>
+          <th width= "110">店舗名</th>
+          <td><%= link_to post_path(post) do %>
             <%= post.shop_name %>
-          <% end %>
-        </p>
-
-        <h5>店舗紹介文</h5>
-        <p><%= post.introduction %></p>
-
-        <h5>店舗住所</h5>
-        <p><%= post.shop_address %></p>
-      </div>
+          <% end %></td>
+        </tr>
+        <tr>
+          <th>店舗紹介文</th>
+          <td><%= post.introduction %></td>
+        </tr>
+        <tr>
+          <th>店舗住所</th>
+          <td><%= post.shop_address %></td>
+        </tr>
+      </table>
+    </div>
     <% end %>
   </div>
 </div>
