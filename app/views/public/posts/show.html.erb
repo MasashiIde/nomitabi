@@ -12,8 +12,12 @@
         <%= render partial: "public/favorites/favorite", locals: { post: @posts } %>
       </div>
       <div>
-        コメント数：
-        <%= @posts.post_comments.count %>
+        <% if @posts.post_comments.present? %>
+          コメント数：
+          <%= @posts.post_comments.count %>
+        <% else %>
+          コメントはまだありません
+        <% end %>
       </div>
     </div>
     <div class= "col-md-5">
@@ -71,29 +75,13 @@
     </div>
   </div>
 
-  <%= form_with model:[@posts, @post_comment], local: true do |f| %>
-    <div class= "row form-group">
-      <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに", class: "offset-1 col-md-5 form-control" %>
-      <%= f.submit "コメント送信", class: "offset-5 btn btn-primary" %>
+  <div class= "row">
+    <div id= "comments-area" class= "col-md-8">
+      <%= render 'public/post_comments/comment', posts: @posts %>
     </div>
-  <% end %>
 
-  <table>
-    <% @posts.post_comments.each do |post_comment| %>
-      <tr>
-        <td>
-          <%= image_tag post_comment.user.get_profile_image(50,50) %>
-          <%= link_to user_path(@posts.user.id) do %>
-            <%= post_comment.user.nickname %>
-          <% end %>
-        </td>
-        <td><%= post_comment.comment %></td>
-        <% if post_comment.user == current_user %>
-          <td>
-            <%= link_to "コメント削除", post_post_comment_path(post_comment.post, post_comment), method: :delete, class: "btn btn-danger" %>
-          </td>
-        <% end %>
-      </tr>
-    <% end %>
-  </table>
+    <div id= "new-comments-<%= @posts.id %>" class= "col-md-4">
+      <%= render partial: "public/post_comments/form", locals: { posts: @posts, post_comment: @post_comment } %>
+    </div>
+  </div>
 </div>

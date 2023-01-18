@@ -1,28 +1,18 @@
-
-<div class= "row form-group">
-  <%= form_with model:[posts, post_comment], local: true do |f| %>
-    <%= f.label :comment, "コメント", class: "offset-1 col-form-label pt-4"%>
-    <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに", class: "offset-1 col-md-5 form-control" %>
-    <%= f.submit "コメント送信", class: "offset-5 btn btn-primary" %>
-  <% end %>
-</div>
-
-<table>
+<table class= "table" width= "100%">
   <% posts.post_comments.each do |post_comment| %>
     <tr>
-      <td>
-        <%= image_tag post_comment.user.get_profile_image(50,50) %>
+      <td class= "align-middle" width= "30%">
         <%= link_to user_path(posts.user.id) do %>
+          <%= image_tag post_comment.user.get_profile_image(50,50) %>
           <%= post_comment.user.nickname %>
         <% end %>
       </td>
-      <td><%= post_comment.comment %></td>
+      <td class= "align-middle" width= "55%"><%= post_comment.comment %></td>
       <% if post_comment.user == current_user %>
-        <td>
-          <%= link_to "コメント削除", post_post_comment_path(post_comment.post, post_comment), method: :delete, class: "btn btn-danger" %>
+        <td class= "align-middle" width= "15%">
+          <%= link_to "削除", post_post_comment_path(post_comment.post, post_comment), method: :delete, remote: true, data: {confirm: "本当に削除しますか？"}, class: "btn btn-danger" %>
         </td>
       <% end %>
     </tr>
   <% end %>
 </table>
-</div>
