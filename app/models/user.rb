@@ -58,5 +58,13 @@ class User < ApplicationRecord
   def active_for_authentication?
     super && (self.is_deleted == false)
   end
+  
+  def self.search(keyword)
+    if keyword
+      User.where(["nickname like? OR email like? ", "%#{keyword}%", "%#{keyword}%"])
+    else
+      User.all
+    end
+  end
 
 end

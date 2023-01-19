@@ -2,17 +2,17 @@
 
   <%= form_with url: search_posts_path, method: :get, local: true do |f| %>
     <div class= "row form-group py-5">
-      <div class= "offset-1 col-md-2">
-      <h4>投稿一覧</h4>
+      <div class= "offset-1 col-md-5">
+        <h4>検索結果"<%= @keyword %>"</h4>
       </div>
-      <%= f.text_field :keyword, value: @keyword, class: "form-control offset-4 col-md-3", placeholder: "キーワードで検索" %>
+      <%= f.text_field :keyword, value: @keyword, class: "form-control offset-1 col-md-3", placeholder: "キーワードで検索" %>
       <%= button_tag(type: "submit", class: "btn btn-primary mr-2") do %>
         <i class="fas fa-search"></i>
       <% end %>
       <%= link_to "検索クリア", posts_path %>
     </div>
   <% end %>
-
+  
   <div class= "row">
     <% @posts.each do |post| %>
     <div class= "col-md-4 py-3">

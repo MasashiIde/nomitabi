@@ -1,0 +1,48 @@
+<div class= "container">
+    
+  <%= form_with url: search_users_path, method: :get, local: true do |f| %>
+    <div class= "row form-group py-5">
+      <div class= "offset-1 col-md-5">
+        <h4>ユーザー検索結果"<%= @keyword %>"</h4>
+      </div>
+      <%= f.text_field :keyword, value: @keyword, class: "form-control offset-1 col-md-3", placeholder: "ユーザーを検索" %>
+      <%= button_tag(type: "submit", class: "btn btn-primary mr-2") do %>
+        <i class="fas fa-search"></i>
+      <% end %>
+      <%= link_to "検索クリア", users_path %>
+    </div>
+  <% end %>
+  
+  <div class= "row">
+    <div class= "col">
+      <table class= "table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>ニックネーム</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <% @users.each do |user| %>
+          <tbody>
+            <tr>
+              <td>
+                <%= link_to user_path(user) do %>
+                  <%= image_tag user.get_profile_image(50,50) %>
+                <% end %>
+              </td>
+              <td class= "align-middle">
+                <%= link_to user_path(user) do %>
+                  <%= user.nickname %>
+                <% end %>
+              </td>
+              <td class= "align-middle">フォロー数：<%= user.followings.count %></td>
+              <td class= "align-middle">フォロワー数：<%= user.followers.count %></td>
+            </tr>
+          </tbody>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>

@@ -39,6 +39,11 @@
               </li>
               <% if current_user.email != 'guest@example.com' %>
                 <li class= "nav-item pl-3">
+                  <%= link_to users_path, class: 'nav-link text-dark' do %>
+                    <button type= "button" class= "btn btn-light">ユーザー一覧</button>
+                  <% end %>
+                </li>
+                <li class= "nav-item pl-3">
                   <%= link_to user_path(current_user.id), class: 'nav-link text-dark' do %>
                     <button type= "button" class= "btn btn-light">マイページ</button>
                   <% end %>
