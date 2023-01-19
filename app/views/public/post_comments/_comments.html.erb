@@ -1,18 +1,24 @@
-<table class= "table" width= "100%">
-  <% post.post_comments.each do |post_comment| %>
-    <tr>
-      <td class= "align-middle" width= "30%">
-        <%= link_to user_path(post.user.id) do %>
-          <%= image_tag post_comment.user.get_profile_image(50,50) %>
-          <%= post_comment.user.nickname %>
-        <% end %>
-      </td>
-      <td class= "align-middle" width= "55%"><%= post_comment.comment %></td>
-      <% if post_comment.user == current_user %>
-        <td class= "align-middle" width= "15%">
-          <%= link_to "削除", post_post_comment_path(post_comment.post, post_comment), method: :delete, remote: true, data: {confirm: "本当に削除しますか？"}, class: "btn btn-danger" %>
+<% if @post.post_comments.present? %>
+  <p>コメント数：<%= @post.post_comments.count %></p>
+
+  <table class= "table" width= "100%">
+    <% post.post_comments.each do |post_comment| %>
+      <tr>
+        <td class= "align-middle" width= "30%">
+          <%= link_to user_path(post.user.id) do %>
+            <%= image_tag post_comment.user.get_profile_image(50,50) %>
+            <%= post_comment.user.nickname %>
+          <% end %>
         </td>
-      <% end %>
-    </tr>
-  <% end %>
-</table>
+        <td class= "align-middle" width= "55%"><%= post_comment.comment %></td>
+        <% if post_comment.user == current_user %>
+          <td class= "align-middle" width= "15%">
+            <%= link_to "削除", post_post_comment_path(post_comment.post, post_comment), method: :delete, remote: true, data: {confirm: "本当に削除しますか？"}, class: "btn btn-danger" %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>コメントはまだありません</p>
+<% end %>

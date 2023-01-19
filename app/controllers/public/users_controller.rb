@@ -3,6 +3,10 @@ class Public::UsersController < ApplicationController
   before_action :ensure_guest_user, only: [:edit]
   before_action :authenticate_user!
 
+  def index
+    @users = User.where.not(id: current_user.id)
+  end
+
   def show
     @user = User.find(params[:id])
     @posts = @user.posts
@@ -34,6 +38,12 @@ class Public::UsersController < ApplicationController
     @user = User.find(params[:id])
     favorites = Favorite.where(user_id: @user.id).pluck(:post_id)
     @favorite_posts = Post.find(favorites)
+  end
+  
+  def search
+    @users = User.search(params[:keyword])
+    @keyword = params[:keyword]
+    render 'search'
   end
 
   private
