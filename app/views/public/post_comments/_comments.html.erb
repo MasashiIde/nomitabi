@@ -1,8 +1,8 @@
 <table class= "table" width= "100%">
-  <% posts.post_comments.each do |post_comment| %>
+  <% post.post_comments.each do |post_comment| %>
     <tr>
       <td class= "align-middle" width= "30%">
-        <%= link_to user_path(posts.user.id) do %>
+        <%= link_to user_path(post.user.id) do %>
           <%= image_tag post_comment.user.get_profile_image(50,50) %>
           <%= post_comment.user.nickname %>
         <% end %>

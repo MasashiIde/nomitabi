@@ -7,14 +7,14 @@
 
   <div class= "row">
     <div class= "offset-1 col-md-6">
-      <%= image_tag @posts.get_shop_image(500,500), class: "pb-3" %><br>
-      <div id= "favorite_buttons_<%= @posts.id %>">
-        <%= render partial: "public/favorites/favorite", locals: { post: @posts } %>
+      <%= image_tag @post.get_shop_image(500,500), class: "pb-3" %><br>
+      <div id= "favorite_buttons_<%= @post.id %>">
+        <%= render partial: 'public/favorites/favorite', locals: { post: @post } %>
       </div>
       <div>
-        <% if @posts.post_comments.present? %>
+        <% if @post.post_comments.present? %>
           コメント数：
-          <%= @posts.post_comments.count %>
+          <%= @post.post_comments.count %>
         <% else %>
           コメントはまだありません
         <% end %>
@@ -25,41 +25,41 @@
         <tbody>
           <tr>
             <th width= "170">店舗名</th>
-            <td><%= @posts.shop_name %></td>
+            <td><%= @post.shop_name %></td>
           </tr>
           <tr>
             <th>店舗紹介文</th>
-            <td align="justify"><%= @posts.introduction %></td>
+            <td align="justify"><%= @post.introduction %></td>
           </tr>
           <tr>
             <th>店舗住所</th>
-            <td align= "justify"><%= @posts.shop_address %></td>
+            <td align= "justify"><%= @post.shop_address %></td>
           </tr>
           <tr>
             <th>店舗ホームページ</th>
             <td>
-              <% if @posts.shop_url.nil? %>
-                <%= @posts.shop_url %>
+              <% if @post.shop_url.nil? %>
+                <%= @post.shop_url %>
               <% else %>
-                <%= Rinku.auto_link(@posts.shop_url, :all, 'target="_blank"').html_safe %>
+                <%= Rinku.auto_link(@post.shop_url, :all, 'target="_blank"').html_safe %>
               <% end %>
             </td>
           </tr>
           <tr>
             <th>投稿者</th>
             <td>
-              <%= link_to user_path(@posts.user) do %>
-                <%= @posts.user.nickname %>
+              <%= link_to user_path(@post.user) do %>
+                <%= @post.user.nickname %>
               <% end %>
             </td>
           </tr>
-          <% if @posts.user == current_user %>
+          <% if @post.user == current_user %>
             <tr>
               <td align= "right">
-                <%= link_to "編集する", edit_post_path(@posts), class: "btn btn-success" %>
+                <%= link_to "編集する", edit_post_path(@post), class: "btn btn-success" %>
               </td>
               <td align= "center">
-                <%= link_to "削除する", post_path(@posts), method: :delete, class: "btn btn-danger", data: {confirm: "本当に削除しますか？"} %>
+                <%= link_to "削除する", post_path(@post), method: :delete, class: "btn btn-danger", data: {confirm: "本当に削除しますか？"} %>
               </td>
             </tr>
           <% end %>
@@ -76,12 +76,12 @@
   </div>
 
   <div class= "row">
-    <div id= "comments-area" class= "col-md-8">
-      <%= render 'public/post_comments/comment', posts: @posts %>
+    <div id= "comments_area" class= "col-md-8">
+      <%= render 'public/post_comments/comments', post: @post %>
     </div>
 
-    <div id= "new-comments-<%= @posts.id %>" class= "col-md-4">
-      <%= render partial: "public/post_comments/form", locals: { posts: @posts, post_comment: @post_comment } %>
+    <div class= "new_comment col-md-4">
+      <%= render 'public/post_comments/form', post: @post, post_comment: @post_comment %>
     </div>
   </div>
 </div>

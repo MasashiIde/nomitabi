@@ -1,2 +1,0 @@
-$("#new-comments-<%= @post.id %>").html("<%= j(render partial: 'public/post_comments/form', locals: { posts: @posts, post_comment: @post_comment }) %>");
-$("textarea").val('');
