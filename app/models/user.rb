@@ -20,7 +20,8 @@ class User < ApplicationRecord
   #フォロー・フォロワーの一覧画面表示の記述
   has_many :followings, through: :relationships, source: :followed
   has_many :followers, through: :reverse_of_relationships, source: :following
-
+  
+  enum status: { nonreleased: 0, released: 1 }
 
   #フォローした時の処理
   def follow(user_id)
