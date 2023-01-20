@@ -10,6 +10,9 @@ class Public::UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @posts = @user.posts
+    if @user.status == "nonreleased" && @user != current_user
+      redirect_back(fallback_location: root_path)
+    end
   end
 
   def edit
@@ -45,11 +48,23 @@ class Public::UsersController < ApplicationController
     @keyword = params[:keyword]
     render 'search'
   end
+  
+  def release
+    user = User.find(params[:user_id])
+    user.released! unless user.released?
+    redirect_to edit_user_path(user), notice: "ユーザーを公開しました"
+  end
+  
+  def nonrelease
+    user = User.find(params[:user_id])
+    user.nonreleased! unless user.nonreleased?
+    redirect_to edit_user_path(user), notice: "ユーザーを非公開にしました"
+  end
 
   private
 
   def user_params
-    params.require(:user).permit(:family_name, :first_name, :profile_image, :nickname, :email, :introduction, :is_deleted)
+    params.require(:user).permit(:family_name, :first_name, :profile_image, :nickname, :email, :introduction, :status, :is_deleted)
   end
 
   def ensure_guest_user
