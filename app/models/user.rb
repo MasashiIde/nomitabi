@@ -10,16 +10,22 @@ class User < ApplicationRecord
   has_many :favorites,dependent: :destroy
   has_many :post_comments, dependent: :destroy
 
-  #following_id=フォローするユーザー
-  #followed_id =フォローされるユーザー
-
   #フォローする、されるの関係
   has_many :relationships, class_name: "Relationship", foreign_key: "following_id", dependent: :destroy
   has_many :reverse_of_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
 
+  #following_id=フォローするユーザー
+  #followed_id =フォローされるユーザー
+  
   #フォロー・フォロワーの一覧画面表示の記述
   has_many :followings, through: :relationships, source: :followed
   has_many :followers, through: :reverse_of_relationships, source: :following
+  
+  has_many :active_notifications, class_name: "Notification", foreign_key: "visitor_id", dependent: :destroy
+  has_many :passive_notifications, class_name: "Notification", foreign_key: "visited_id", dependent: :destroy
+  
+  #active_notifications  = 自分からの通知
+  #passive_notifications = 相手からの通知
   
   enum status: { nonreleased: 0, released: 1 }
 
@@ -65,6 +71,14 @@ class User < ApplicationRecord
       User.where(["nickname like? OR email like? ", "%#{keyword}%", "%#{keyword}%"])
     else
       User.all
+    end
+  end
+  
+  def create_notification_follow!(current_user)
+    temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ?", current_user.id, id, 'follow'])
+    if temp.blank?
+      notification = current_user.active_notifications.new(visited_id: id, action: 'follow')
+      notification.save if notification.valid?
     end
   end
 

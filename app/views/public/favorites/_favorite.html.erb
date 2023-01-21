@@ -1,6 +1,6 @@
-<% if current_user.email == "guest@example.com" || post.user == current_user %>
+<% if current_user.email == "guest@example.com" %>
   <p>
-    <%= post.favorites.count %> いいね
+    ♥<%= post.favorites.count %> いいね
   </p>
 <% else %>
   <% if post.favorited_by?(current_user) %>
