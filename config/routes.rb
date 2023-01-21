@@ -41,6 +41,7 @@ Rails.application.routes.draw do
       patch 'release'
       patch 'nonrelease'
     end
+    resources :notifications, only: :index
   end
 
   devise_scope :user do
