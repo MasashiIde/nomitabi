@@ -1,0 +1,27 @@
+<div class= "container">
+  <div class= "row py-5">
+    <div class= "offset-1 col">
+      <h4>管理者ログイン</h4>
+    </div>
+  </div>
+
+  <%= form_with model: @admin, url: admin_session_path, local: true do |f| %>
+
+    <div class= "row form-group">
+      <%= f.label :email, "メールアドレス", :class => "offset-1 col-md-3 col-form-label"%>
+      <%= f.email_field :email, :class => "form-control col-md-5", autofocus: "true", autocomplete: "email", placeholder: "sample@example.com"%>
+    </div>
+    <div class= "row form-group">
+      <%= f.label :password, "パスワード", :class => "offset-1 col-md-3 col-form-label"%>
+      <%= f.password_field :password, :class => "form-control col-md-5"%>
+    </div>
+    <div class= "row">
+      <div class= "actions d-grid col-md-3 mx-auto">
+        <%= f.submit "ログイン", :class => "btn btn-primary btn-lg btn-block" %>
+      </div>
+    </div>
+  <% end %>
+
+</div>
+
+<%= render "admin/shared/links" %>

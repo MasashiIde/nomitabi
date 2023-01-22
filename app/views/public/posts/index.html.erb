@@ -1,0 +1,41 @@
+<div class= "container">
+
+  <%= form_with url: search_posts_path, method: :get, local: true do |f| %>
+    <div class= "row form-group py-5">
+      <div class= "offset-1 col-md-2">
+      <h4>投稿一覧</h4>
+      </div>
+      <%= f.text_field :keyword, value: @keyword, class: "form-control offset-4 col-md-3", placeholder: "キーワードで検索" %>
+      <%= button_tag(type: "submit", class: "btn btn-primary mr-2") do %>
+        <i class="fas fa-search"></i>
+      <% end %>
+      <%= link_to "検索クリア", posts_path %>
+    </div>
+  <% end %>
+
+  <div class= "row">
+    <% @posts.each do |post| %>
+    <div class= "col-md-4 py-3">
+      <table class= "table">
+        <%= link_to post_path(post) do %>
+          <%= image_tag post.get_shop_image(350,300) %>
+        <% end %>
+        <tr>
+          <th width= "110">店舗名</th>
+          <td><%= link_to post_path(post) do %>
+            <%= post.shop_name %>
+          <% end %></td>
+        </tr>
+        <tr>
+          <th>店舗紹介文</th>
+          <td><%= post.introduction %></td>
+        </tr>
+        <tr>
+          <th>店舗住所</th>
+          <td><%= post.shop_address %></td>
+        </tr>
+      </table>
+    </div>
+    <% end %>
+  </div>
+</div>
