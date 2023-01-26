@@ -2,10 +2,10 @@
 
   <%= form_with url: search_posts_path, method: :get, local: true do |f| %>
     <div class= "row form-group py-5">
-      <div class= "offset-1 col-md-2">
+      <div class= "offset-1 col-2">
       <h4>投稿一覧</h4>
       </div>
-      <%= f.text_field :keyword, value: @keyword, class: "form-control offset-4 col-md-3", placeholder: "キーワードで検索" %>
+      <%= f.text_field :keyword, value: @keyword, class: "form-control offset-4 col-3", placeholder: "キーワードで検索" %>
       <%= button_tag(type: "submit", class: "btn btn-primary mr-2") do %>
         <i class="fas fa-search"></i>
       <% end %>
@@ -15,27 +15,26 @@
 
   <div class= "row">
     <% @posts.each do |post| %>
-    <div class= "col-md-4 py-3">
-      <table class= "table">
-        <%= link_to post_path(post) do %>
-          <%= image_tag post.get_shop_image(350,300) %>
-        <% end %>
-        <tr>
-          <th width= "110">店舗名</th>
-          <td><%= link_to post_path(post) do %>
-            <%= post.shop_name %>
-          <% end %></td>
-        </tr>
-        <tr>
-          <th>店舗紹介文</th>
-          <td><%= post.introduction %></td>
-        </tr>
-        <tr>
-          <th>店舗住所</th>
-          <td><%= post.shop_address %></td>
-        </tr>
-      </table>
-    </div>
+      <div class= "col-3">
+        <div class="card h-100" style="width: 17rem;">
+          <%= image_tag post.get_shop_image(400,400) %>
+          <div class="card-body">
+            <h5 class="card-title">
+              <%= link_to post_path(post) do %>
+                <%= post.shop_name %>
+              <% end %>
+            </h5>
+            <p class="card-text"><%= post.introduction %></p>
+            <p class="card-text"><%= post.shop_address %></p>
+          </div>
+        </div>
+      </div>
     <% end %>
   </div>
+  <div class= "row pt-2">
+    <div class= "col">
+      <%= paginate @posts, theme: 'bootstrap-5' %>
+    </div>
+  </div>
+  
 </div>

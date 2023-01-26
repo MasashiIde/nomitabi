@@ -73,6 +73,11 @@
                 管理者ログイン中
               </p>
               <li class= "nav-item">
+                <%= link_to admin_posts_path, class: 'nav-link text-dark' do %>
+                  <button type= "button" class= "btn btn-light">投稿一覧</button>
+                <% end %>
+              </li>
+              <li class= "nav-item">
                 <%= link_to admin_users_path, class: 'nav-link text-dark' do %>
                   <button type= "button" class= "btn btn-light">ユーザー一覧</button>
                 <% end %>

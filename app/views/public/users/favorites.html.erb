@@ -10,27 +10,26 @@
 
   <div class= "row">
     <% @favorite_posts.each do |favorite_post| %>
-    <div class= "col-md-4 py-3">
-      <table class= "table">
-        <%= link_to post_path(favorite_post) do %>
-          <%= image_tag favorite_post.get_shop_image(350,300) %>
-        <% end %>
-        <tr>
-          <th width= "110">店舗名</th>
-          <td><%= link_to post_path(favorite_post) do %>
-            <%= favorite_post.shop_name %>
-          <% end %></td>
-        </tr>
-        <tr>
-          <th>店舗紹介文</th>
-          <td><%= favorite_post.introduction %></td>
-        </tr>
-        <tr>
-          <th>店舗住所</th>
-          <td><%= favorite_post.shop_address %></td>
-        </tr>
-      </table>
-    </div>
+      <div class= "col-3">
+        <div class="card h-100" style="width: 17rem;">
+          <%= image_tag favorite_post.get_shop_image(400,400) %>
+          <div class="card-body">
+            <h5 class="card-title">
+              <%= link_to post_path(favorite_post) do %>
+                <%= favorite_post.shop_name %>
+              <% end %>
+            </h5>
+            <p class="card-text"><%= favorite_post.introduction %></p>
+            <p class="card-text"><%= favorite_post.shop_address %></p>
+          </div>
+        </div>
+      </div>
     <% end %>
   </div>
+  <div class= "row pt-2">
+    <div class= "col">
+      <%= paginate @favorite_posts, theme: 'bootstrap-5' %>
+    </div>
+  </div>
+  
 </div>

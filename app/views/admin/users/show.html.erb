@@ -7,7 +7,7 @@
 
   <div class= "row">
     <div class= "offset-2 col-md-3">
-      <%= image_tag @user.get_profile_image(200,200) %>
+      <%= image_tag @user.get_profile_image(200,200), class: "rounded-circle" %>
     </div>
 
     <div class= "col-md-7">
@@ -44,6 +44,55 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    
+    <div class= "offset-7 col-3">
+      <% if @user.email != "guest@example.com" %>
+        <%= link_to "ユーザーを削除する", admin_user_path(@user), method: :delete, class: "btn btn-danger", data: {confirm: "本当に削除しますか？"} %>
+      <% end %>
+    </div>
+  </div>
+  
+  <div class= "row py-5">
+    <div class= "col text-right">
+      <%= link_to "ユーザー一覧へ戻る", admin_users_path %>
+    </div>
+  </div>
+  
+  <div class= "row pb-3">
+    <div class= "col">
+      <h5>投稿一覧</h5>
+    </div>
+  </div>
+  
+  <div class= "row">
+    <% if @posts.present? %>
+      <% @posts.each do |post| %>
+        <div class= "col-3">
+          <div class="card h-100" style="width: 17rem;">
+            <%= image_tag post.get_shop_image(400,400) %>
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= link_to admin_post_path(post) do %>
+                  <%= post.shop_name %>
+                <% end %>
+              </h5>
+              <p class="card-text"><%= post.introduction %></p>
+              <p class="card-text"><%= post.shop_address %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class= "col-3">
+        投稿はありません
+      </div>
+    <% end %>
+  </div>
+  
+  <div class= "row pt-2">
+    <div class= "col">
+      <%= paginate @posts, theme: 'bootstrap-5' %>
     </div>
   </div>
 </div>

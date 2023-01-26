@@ -1,0 +1,83 @@
+<div class= "container">
+  <div class= "row py-5">
+    <div class= "offset-1 col">
+      <h4>店舗詳細</h4>
+    </div>
+  </div>
+
+  <div class= "row">
+    <div class= "offset-1 col-md-6">
+      <%= image_tag @post.get_shop_image(500,500), class: "pb-3" %><br>
+      <i class="fas fa-heart"></i>
+      <%= @post.favorites.count %>
+    </div>
+    <div class= "col-md-5">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th width= "170">店舗名</th>
+            <td><%= @post.shop_name %></td>
+          </tr>
+          <tr>
+            <th>店舗紹介文</th>
+            <td align="justify"><%= @post.introduction %></td>
+          </tr>
+          <tr>
+            <th>店舗住所</th>
+            <td align= "justify"><%= @post.shop_address %></td>
+          </tr>
+          <tr>
+            <th>店舗ホームページ</th>
+            <td>
+              <% if @post.shop_url.nil? %>
+                <%= @post.shop_url %>
+              <% else %>
+                <%= Rinku.auto_link(@post.shop_url, :all, 'target="_blank"').html_safe %>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <th>投稿者</th>
+            <td>
+              <%= link_to admin_user_path(@post.user) do %>
+                <%= image_tag @post.user.get_profile_image(50,50), class: "rounded-circle" %>
+                <%= @post.user.nickname %>
+              <% end %>
+            </td>
+          </tr>
+            <tr align= "right">
+              <td colspan="2">
+                <%= link_to admin_posts_path do %>
+                  投稿一覧に戻る
+                <% end %>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class= "row">
+    <div class= "col-md-8">
+      <% if @post.post_comments.present? %>
+  <p>コメント数：<%= @post.post_comments.count %></p>
+
+  <table class= "table" width= "100%">
+    <% @post.post_comments.each do |post_comment| %>
+      <tr>
+        <td class= "align-middle" width= "30%">
+          <%= link_to admin_user_path(post_comment.user.id) do %>
+            <%= image_tag post_comment.user.get_profile_image(50,50), class: "rounded-circle" %>
+            <%= post_comment.user.nickname %>
+          <% end %>
+        </td>
+        <td class= "align-middle" width= "55%"><%= post_comment.comment %></td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>コメントはまだありません</p>
+<% end %>
+    </div>
+  </div>
+</div>

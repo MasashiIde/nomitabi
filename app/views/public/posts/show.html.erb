@@ -38,9 +38,10 @@
             </td>
           </tr>
           <tr>
-            <th>投稿者</th>
+            <th style= "vertical-align: middle;">投稿者</th>
             <td>
               <%= link_to user_path(@post.user) do %>
+                <%= image_tag @post.user.get_profile_image(50,50), class: "rounded-circle" %>
                 <%= @post.user.nickname %>
               <% end %>
             </td>
@@ -71,9 +72,11 @@
     <div id= "comments_area" class= "col-md-8">
       <%= render 'public/post_comments/comments', post: @post %>
     </div>
-
-    <div class= "new_comment col-md-4">
-      <%= render 'public/post_comments/form', post: @post, post_comment: @post_comment %>
-    </div>
+    
+    <% if current_user.email != "guest@example.com" %>
+      <div class= "new_comment col-md-4">
+        <%= render 'public/post_comments/form', post: @post, post_comment: @post_comment %>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -1,18 +1,21 @@
 <% if current_user.email == "guest@example.com" %>
   <p>
-    ♥<%= post.favorites.count %> いいね
+    <i class="fas fa-heart"></i>
+    <%= post.favorites.count %>
   </p>
 <% else %>
   <% if post.favorited_by?(current_user) %>
     <p>
       <%= link_to post_favorites_path(post), method: :delete, remote: true do %>
-        ♥<%= post.favorites.count %> いいね
+        <i class="fas fa-heart"></i>
+        <%= post.favorites.count %>
       <% end %>
     </p>
   <% else %>
     <p>
       <%= link_to post_favorites_path(post), method: :post, remote: true do %>
-        ♡<%= post.favorites.count %> いいね
+        <i class="far fa-heart"></i>
+        <%= post.favorites.count %>
       <% end %>
     </p>
   <% end %>
