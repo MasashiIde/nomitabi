@@ -11,107 +11,158 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
   </head>
 
-  <body>
+  <body class="d-flex flex-column vh-100">
     <header>
       <nav class="navbar navbar-expand-lg navbar-light" style= "background-color: orange;">
         <div class="container-fluid">
           <%= link_to root_path, class: "navbar-brand text-light" do %>
             <%= image_tag 'nomitabi.jpg', :size => '70x70' %>
           <% end %>
-          <ul class= "navbar-nav ml-auto">
-            <% if user_signed_in? %>
-              <p class= "text-light my-auto">
-                ようこそ、
-                <%= current_user.nickname %>
-                さん！
-              </p>
-              <% if current_user.email != 'guest@example.com' %>
+          <button class= "navbar-toggler" type= "button" data-toggle= "collapse" data-target= "#navbarNavDropdown" aria-controls= "navbarNavDropdown" aria-expanded= "false" aria-label= "Toggle navigation">
+            <span class= "navbar-toggler-icon"></span>
+          </button>
+          <div class= "collapse navbar-collapse" id= "navbarNavDropdown">
+            <ul class= "navbar-nav ml-auto">
+              <% if user_signed_in? %>
+                <p class= "text-light my-auto">
+                  ようこそ、
+                  <%= current_user.nickname %>
+                  さん！
+                </p>
+                <% if current_user.email != 'guest@example.com' %>
+                  <li class= "nav-item">
+                    <%= link_to new_post_path, class: 'nav-link text-dark' do %>
+                      <button type= "button" class= "btn btn-light">
+                        <i class="fas fa-edit"></i>
+                        新規投稿
+                      </button>
+                    <% end %>
+                  </li>
+                <% end %>
                 <li class= "nav-item">
-                  <%= link_to new_post_path, class: 'nav-link text-dark' do %>
+                  <%= link_to posts_path, class: 'nav-link text-dark' do %>
                     <button type= "button" class= "btn btn-light">
-                      <i class="fas fa-edit"></i>
-                      新規投稿
+                      <i class="fas fa-list"></i>
+                      投稿一覧
                     </button>
                   <% end %>
                 </li>
-              <% end %>
-              <li class= "nav-item">
-                <%= link_to posts_path, class: 'nav-link text-dark' do %>
-                  <button type= "button" class= "btn btn-light">投稿一覧</button>
+                <% if current_user.email != 'guest@example.com' %>
+                  <li class= "nav-item">
+                    <%= link_to users_path, class: 'nav-link text-dark' do %>
+                      <button type= "button" class= "btn btn-light">
+                        <i class="fas fa-user-friends"></i>
+                        ユーザー一覧
+                      </button>
+                    <% end %>
+                  </li>
+                  <li class= "nav-item">
+                    <%= link_to user_path(current_user.id), class: 'nav-link text-dark' do %>
+                      <button type= "button" class= "btn btn-light">
+                        <i class="fas fa-user"></i>
+                        マイページ
+                      </button>
+                    <% end %>
+                  </li>
+                  <li class= "nav-item">
+                    <%= link_to notifications_path, class: 'nav-link text-dark' do %>
+                      <button type= "button" class= "btn btn-light">
+                        <% if unchecked_notifications.any? %>
+                          <i class="fas fa-circle n-circle"></i>
+                          <i class="fas fa-bell"></i>
+                        <% else %>
+                          <i class="fas fa-bell"></i>
+                        <% end %>
+                        通知一覧
+                      </button>
+                    <% end %>
+                  </li>
                 <% end %>
-              </li>
-              <% if current_user.email != 'guest@example.com' %>
                 <li class= "nav-item">
-                  <%= link_to users_path, class: 'nav-link text-dark' do %>
-                    <button type= "button" class= "btn btn-light">ユーザー一覧</button>
-                  <% end %>
-                </li>
-                <li class= "nav-item">
-                  <%= link_to user_path(current_user.id), class: 'nav-link text-dark' do %>
-                    <button type= "button" class= "btn btn-light">マイページ</button>
-                  <% end %>
-                </li>
-                <li class= "nav-item">
-                  <%= link_to notifications_path, class: 'nav-link text-dark' do %>
+                  <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-dark' do %>
                     <button type= "button" class= "btn btn-light">
-                      <% if unchecked_notifications.any? %>
-                        <i class="fas fa-circle n-circle"></i>
-                      <% end %>
-                      通知一覧
+                      <i class="fas fa-sign-out-alt"></i>
+                      ログアウト
                     </button>
                   <% end %>
                 </li>
+
+              <% elsif admin_signed_in? %>
+                <p class= "text-light my-auto">
+                  管理者ログイン中
+                </p>
+                <li class= "nav-item">
+                  <%= link_to admin_posts_path, class: 'nav-link text-dark' do %>
+                    <button type= "button" class= "btn btn-light">
+                      <i class="fas fa-list"></i>
+                      投稿一覧
+                    </button>
+                  <% end %>
+                </li>
+                <li class= "nav-item">
+                  <%= link_to admin_users_path, class: 'nav-link text-dark' do %>
+                    <button type= "button" class= "btn btn-light">
+                      <i class="fas fa-user-friends"></i>
+                      ユーザー一覧
+                      </button>
+                  <% end %>
+                </li>
+                <li class= "nav-item">
+                  <%= link_to destroy_admin_session_path, method: :delete, class: 'nav-link text-dark' do %>
+                    <button type= "button" class= "btn btn-light">
+                      <i class="fas fa-sign-out-alt"></i>
+                      ログアウト
+                    </button>
+                  <% end %>
+                </li>
+
+              <% else %>
+                <li class= "nav-item">
+                  <%= link_to about_path, class: 'nav-link text-dark' do %>
+                    <button type= "button" class= "btn btn-light">About</button>
+                  <% end %>
+                </li>
+                <li class= "nav-item">
+                  <%= link_to users_guest_sign_in_path, method: :post, class: 'nav-link text-dark' do %>
+                    <button type= "button" class= "btn btn-light">
+                      <i class="fas fa-sign-in-alt"></i>
+                      ゲストログイン(閲覧用)
+                    </button>
+                  <% end %>
+                </li>
+                <li class= "nav-item">
+                  <%= link_to new_user_session_path, class: 'nav-link text-dark' do %>
+                    <button type= "button" class= "btn btn-light">
+                      <i class="fas fa-sign-in-alt"></i>
+                      ログイン
+                    </button>
+                  <% end %>
+                </li>
+                <li class= "nav-item">
+                  <%= link_to new_user_registration_path, class: 'nav-link text-dark' do %>
+                    <button type= "button" class= "btn btn-light">
+                      <i class="fas fa-user-plus"></i>
+                      新規登録
+                    </button>
+                  <% end %>
+                </li>
+
               <% end %>
-              <li class= "nav-item">
-                <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-dark' do %>
-                  <button type= "button" class= "btn btn-light">ログアウト</button>
-                <% end %>
-              </li>
-
-            <% elsif admin_signed_in? %>
-              <p class= "text-light my-auto">
-                管理者ログイン中
-              </p>
-              <li class= "nav-item">
-                <%= link_to admin_users_path, class: 'nav-link text-dark' do %>
-                  <button type= "button" class= "btn btn-light">ユーザー一覧</button>
-                <% end %>
-              </li>
-              <li class= "nav-item">
-                <%= link_to destroy_admin_session_path, method: :delete, class: 'nav-link text-dark' do %>
-                  <button type= "button" class= "btn btn-light">ログアウト</button>
-                <% end %>
-              </li>
-
-            <% else %>
-              <li class= "nav-item">
-                <%= link_to about_path, class: 'nav-link text-dark' do %>
-                  <button type= "button" class= "btn btn-light">About</button>
-                <% end %>
-              </li>
-              <li class= "nav-item">
-                <%= link_to users_guest_sign_in_path, method: :post, class: 'nav-link text-dark' do %>
-                  <button type= "button" class= "btn btn-light">ゲストログイン(閲覧用)</button>
-                <% end %>
-              </li>
-              <li class= "nav-item">
-                <%= link_to new_user_session_path, class: 'nav-link text-dark' do %>
-                  <button type= "button" class= "btn btn-light">ログイン</button>
-                <% end %>
-              </li>
-              <li class= "nav-item">
-                <%= link_to new_user_registration_path, class: 'nav-link text-dark' do %>
-                  <button type= "button" class= "btn btn-light">新規登録</button>
-                <% end %>
-              </li>
-
-            <% end %>
-          </ul>
+            </ul>
+          </div>
         </div>
       </nav>
     </header>
 
-    <%= render 'public/shared/flash_message' %>
-    <%= yield %>
+    <main class="mb-auto pb-3">
+      <%= render 'public/shared/flash_message' %>
+      <%= yield %>
+    </main>
+    
+    <footer class="text-center pt-3 pb-3" style= "background-color: orange;">
+      <p>
+        &copy; 2023 nomitabi
+      </p>
+    </footer>
   </body>
 </html>

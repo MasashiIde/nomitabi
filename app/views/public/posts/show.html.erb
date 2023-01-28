@@ -6,7 +6,7 @@
   </div>
 
   <div class= "row">
-    <div class= "offset-1 col-md-6">
+    <div class= "offset-1 col-6">
       <%= image_tag @post.get_shop_image(500,500), class: "pb-3" %><br>
       <div id= "favorite_buttons_<%= @post.id %>">
         <%= render partial: 'public/favorites/favorite', locals: { post: @post } %>
@@ -38,9 +38,10 @@
             </td>
           </tr>
           <tr>
-            <th>投稿者</th>
+            <th style= "vertical-align: middle;">投稿者</th>
             <td>
               <%= link_to user_path(@post.user) do %>
+                <%= image_tag @post.user.get_profile_image(50,50), class: "rounded-circle" %>
                 <%= @post.user.nickname %>
               <% end %>
             </td>
@@ -68,12 +69,14 @@
   </div>
 
   <div class= "row">
-    <div id= "comments_area" class= "col-md-8">
+    <div id= "comments_area" class= "col-8">
       <%= render 'public/post_comments/comments', post: @post %>
     </div>
-
-    <div class= "new_comment col-md-4">
-      <%= render 'public/post_comments/form', post: @post, post_comment: @post_comment %>
-    </div>
+    
+    <% if @post.user != current_user and current_user.email != "guest@example.com" %>
+      <div class= "new_comment col-4">
+        <%= render 'public/post_comments/form', post: @post, post_comment: @post_comment %>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -1,2 +1,10 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
+
+.pagination{
+  justify-content: center;
+}
+
+.field_with_errors{
+  display: contents;
+}

@@ -6,7 +6,7 @@
       <tr>
         <td class= "align-middle" width= "30%">
           <%= link_to user_path(post.user.id) do %>
-            <%= image_tag post_comment.user.get_profile_image(50,50) %>
+            <%= image_tag post_comment.user.get_profile_image(50,50), class: "rounded-circle" %>
             <%= post_comment.user.nickname %>
           <% end %>
         </td>

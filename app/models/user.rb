@@ -28,7 +28,13 @@ class User < ApplicationRecord
   #passive_notifications = 相手からの通知
   
   enum status: { nonreleased: 0, released: 1 }
-
+  
+  validates :email, presence: true, uniqueness: true
+  validates :family_name, presence: true
+  validates :first_name, presence: true
+  validates :nickname, presence: true
+  validates :introduction, length: { maximum: 100 }
+  
   #フォローした時の処理
   def follow(user_id)
     relationships.create(followed_id: user_id)

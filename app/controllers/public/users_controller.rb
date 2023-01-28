@@ -9,7 +9,7 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = @user.posts
+    @posts = @user.posts.page(params[:page]).per(8)
     if @user.status == "nonreleased" && @user != current_user
       redirect_back(fallback_location: root_path)
     end
@@ -21,8 +21,11 @@ class Public::UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @user.update(user_params)
-    redirect_to user_path(@user)
+    if @user.update(user_params)
+      redirect_to user_path(@user)
+    else
+      render :edit
+    end
   end
 
   def unsubscribe
@@ -41,6 +44,7 @@ class Public::UsersController < ApplicationController
     @user = User.find(params[:id])
     favorites = Favorite.where(user_id: @user.id).pluck(:post_id)
     @favorite_posts = Post.find(favorites)
+    @favorite_posts = Kaminari.paginate_array(@favorite_posts).page(params[:page]).per(8)
   end
   
   def search

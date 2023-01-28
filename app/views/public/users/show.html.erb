@@ -1,6 +1,6 @@
 <div class= "container">
   <div class= "row py-5">
-    <div class= "offset-1 col-md-3">
+    <div class= "offset-1 col-3">
       <% if @user == current_user %>
         <h4>マイページ</h4>
       <% else %>
@@ -10,10 +10,10 @@
   </div>
 
   <div class= "row">
-    <div class= "offset-2 col-md-3">
-      <%= image_tag @user.get_profile_image(200,200) %>
-      <% if @user != current_user and @user.email != "guest@example.com" %>
-        <div class= "pt-3">
+    <div class= "offset-1 col-3">
+      <%= image_tag @user.get_profile_image(200,200), class: "rounded-circle" %>
+      <% if @user != current_user and current_user.email != "guest@example.com" %>
+        <div class= "pt-3 pl-4">
           <% if current_user.following?(@user) %>
             <%= link_to "フォローを外す", user_relationships_path(@user.id), method: :delete, class: "btn btn-danger" %>
           <% else %>
@@ -23,7 +23,7 @@
       <% end %>
     </div>
 
-    <div class= "col-md-6">
+    <div class= "offset-1 col-6">
       <table class="table">
         <tbody height= "100">
           <% if @user == current_user %>
@@ -46,12 +46,12 @@
           <tr>
             <td>
               <%= link_to user_followings_path(@user.id) do %>
-                フォロー数:<%= @user.followings.count %>
+                フォロー:<%= @user.followings.count %>
               <% end %>
             </td>
             <td>
               <%= link_to user_followers_path(@user.id) do %>
-                フォロワー数:<%= @user.followers.count %>
+                フォロワー:<%= @user.followers.count %>
               <% end %>
             </td>
           </tr>
@@ -60,15 +60,54 @@
     </div>
   </div>
 
-  <div class= "row">
-    <div class= "offset-6 col-md-2">
+  <div class= "row py-5">
+    <div class= "offset-6 col-2">
       <%= link_to "いいねした投稿", favorites_user_path(@user) %>
     </div>
-    <% if @user == current_user and @user.email != 'guest@example.com' %>
-      <div class= "col-md-2">
-        <%= link_to "プロフィール編集", edit_user_path(current_user.id), class: "btn btn-outline-secondary" %>
+    <% if @user == current_user and current_user.email != "guest@example.com" %>
+      <div class= "col-3">
+        <%= link_to edit_user_path(current_user.id), class: "btn btn-outline-secondary" do %>
+          <i class="fas fa-user-cog"></i>
+          プロフィール編集
+        <% end %>
       </div>
     <% end %>
   </div>
+  
+  <div class= "row pb-3">
+    <div class= "col">
+      <h5>投稿一覧</h5>
+    </div>
+  </div>
 
+  <div class= "row">
+    <% if @posts.present? %>
+      <% @posts.each do |post| %>
+        <div class= "col-3">
+          <div class="card h-100" style="width: 17rem;">
+            <%= image_tag post.get_shop_image(400,400) %>
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= link_to admin_post_path(post) do %>
+                  <%= post.shop_name %>
+                <% end %>
+              </h5>
+              <p class="card-text"><%= post.introduction %></p>
+              <p class="card-text"><%= post.shop_address %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class= "col-3">
+        投稿はありません
+      </div>
+    <% end %>
+  </div>
+  
+  <div class= "row pt-2">
+    <div class= "col">
+      <%= paginate @posts, theme: 'bootstrap-5' %>
+    </div>
+  </div>
 </div>
