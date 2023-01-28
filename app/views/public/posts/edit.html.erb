@@ -6,6 +6,7 @@
   </div>
 
   <%= form_with model:@post, url: post_path, method: :patch do |f| %>
+    <%= render 'layouts/error_messages', object: f.object %>
     <div class= "row form-group">
       <%= f.label :shop_image, "店舗画像", :class => "offset-1 col-md-3 col-form-label" %>
       <%= f.file_field :shop_image, placeholder: "店舗画像", accept: "image/*" %>

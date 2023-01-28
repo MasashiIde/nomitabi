@@ -6,6 +6,10 @@ class Post < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :post_comments, dependent: :destroy
   has_many :notifications, dependent: :destroy
+  
+  validates :shop_name, presence: true, uniqueness: true
+  validates :introduction, presence: true, length: { maximum: 100 }
+  validates :shop_address, presence: true, uniqueness: true
 
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)

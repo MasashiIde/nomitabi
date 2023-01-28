@@ -6,7 +6,7 @@
   </div>
 
   <%= form_with model: @user, url: user_path, method: :patch, local: true do |f| %>
-
+    <%= render 'layouts/error_messages', object: f.object %>
     <div class= "row form-group">
       <%= f.label :name, "名前", class: "offset-1 col-md-3 col-form-label" %>
       <%= f.text_field :family_name, class: "form-control col-md-2" %>
