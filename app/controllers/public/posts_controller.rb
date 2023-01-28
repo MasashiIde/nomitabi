@@ -1,4 +1,8 @@
 class Public::PostsController < ApplicationController
+  
+  before_action :ensure_guest_user, except: [:index, :show, :search]
+  before_action :authenticate_user!
+  
   def new
     @post = Post.new
   end
@@ -6,12 +10,15 @@ class Public::PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.user_id = current_user.id
-    @post.save
-    redirect_to post_path(@post)
+    if @post.save
+      redirect_to post_path(@post)
+    else
+      render :new
+    end
   end
 
   def index
-    @posts = Post.all
+    @posts = Post.all.page(params[:page]).per(8)
   end
 
   def show
@@ -25,8 +32,11 @@ class Public::PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    @post.update(post_params)
-    redirect_to post_path(@post)
+    if @post.update(post_params)
+      redirect_to post_path(@post)
+    else
+      render :edit
+    end
   end
 
   def destroy
@@ -45,6 +55,12 @@ class Public::PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:shop_image, :shop_name, :introduction, :shop_address, :shop_url)
+  end
+  
+  def ensure_guest_user
+    if current_user.email == "guest@example.com"
+      redirect_to posts_path
+    end
   end
 
 end

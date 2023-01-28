@@ -1,0 +1,16 @@
+ja:
+  activerecord:
+    attributes:
+      post:
+        shop_name: 店舗名
+        introduction: 店舗紹介文
+        shop_address: 店舗住所
+        
+      user:
+        family_name: 姓
+        first_name: 名
+        nickname: ニックネーム
+        introduction: 自己紹介文
+        
+      post_comment:
+        comment: コメント

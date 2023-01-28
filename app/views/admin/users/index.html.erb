@@ -6,16 +6,16 @@
   </div>
 
   <div class="row">
-    <div class="offset-1 col-md-10">
+    <div class="offset-1 col-10">
       <table class="table table-hover table-inveres">
         <thead>
           <tr>
             <th>会員ID</th>
+            <th></th>
             <th>氏名</th>
             <th>ニックネーム</th>
             <th>メールアドレス</th>
             <th>会員ステータス</th>
-            <th></th>
           </tr>
         </thead>
 
@@ -23,6 +23,9 @@
           <tbody>
             <tr>
               <td><%= user.id %></td>
+              <td>
+                <%= image_tag user.get_profile_image(50,50), class: "rounded-circle" %>
+              </td>
               <td>
                 <%= link_to admin_user_path(user) do %>
                   <%= user.family_name %><%= user.first_name %>
@@ -37,13 +40,11 @@
                   <p class="text-success">有効</p>
                 <% end %>
               </td>
-              <td>
-                <%= link_to "削除する", admin_user_path(user), method: :delete, class: "btn btn-danger", data: {confirm: "本当に削除しますか？"} %>
-              </td>
             </tr>
           </tbody>
         <% end %>
       </table>
+      <%= paginate @users, theme: 'bootstrap-5' %>
     </div>
   </div>
 </div>

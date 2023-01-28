@@ -1,7 +1,31 @@
 <div class= "container">
   <div class= "row py-5">
     <div class= "offset-1 col">
-      <h4>ユーザー投稿一覧</h4>
+      <h4>投稿一覧</h4>
+    </div>
+  </div>
+  
+  <div class= "row">
+    <% @posts.each do |post| %>
+      <div class= "col-3">
+        <div class="card h-100" style="width: 17rem;">
+          <%= image_tag post.get_shop_image(400,400) %>
+          <div class="card-body">
+            <h5 class="card-title">
+              <%= link_to admin_post_path(post) do %>
+                <%= post.shop_name %>
+              <% end %>
+            </h5>
+            <p class="card-text"><%= post.introduction %></p>
+            <p class="card-text"><%= post.shop_address %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class= "row pt-2">
+    <div class= "col">
+      <%= paginate @posts, theme: 'bootstrap-5' %>
     </div>
   </div>
 
